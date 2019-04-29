@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Lisaa/ muuta/ poista ehdokkaita.</title>
+        <meta charset="UTF-8">
+          <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+      <!--   <link href="style.css" rel="stylesheet" type="text/css"> -->
+        
+    </head> 
+    <body>
+    
+<%--     <%
+	if(session.getAttribute("username")==null)
+	{
+		response.sendRedirect("Login.html");
+	}
+	%> --%>
+	
+	
+ 
+    <h2>Tasta paaset lisaamaan uuden ehdokkaan:</h2>
+       <table>
+		<tr>
+			
+       <td>Ehdokkaan etunimi:<br>  </td>
+       <td><input type="text" name="etunimi" id="etunimi"><br></td>
+       <tr>
+       	<tr>
+			
+       <td> Ehdokkaan sukunimi:<br></td>
+     <td>  <input type="text" name="sukunimi" id="sukunimi"><br></td>
+     </tr>
+      <tr>
+      <td> Ehdokkaan puolue:<br></td>
+       <td><input type="text" name="puolue" id="puolue"><br></td>
+       </tr>
+       <tr>
+       <td>Ehdokkaan kotipaikkakunta:<br></td>
+       <td><input type="text" name="kotipaikkakunta" id="kotipaikkakunta"><br></td>
+       </tr>
+       <tr>
+       <td>Ehdokkaan ika:<br> </td>
+       <td><input type="text" name="ika" id="ika"><br></td>
+       </tr>
+       <tr>
+       <td> Miksi eduskuntaan?:<br></td>
+       <td><input type="text" name="miksiEduskuntaan" id="miksiEduskuntaan"><br></td>
+       </tr>
+       <tr>
+      <td> Mita asioita haluaa edistaa?:<br></td>
+      <td> <input type="text" name="mitaEdistaa" id="mitaEdistaa"><br></td>
+      </tr>
+      <tr>
+       <td>Ehdokkaan ammatti:<br></td>
+       <td><input type="text" name="ammatti" id="ammatti"><br></td>
+       </tr>
+        <tr>
+    <td colspan="2"><button onclick="lueehdokkaat()">lue Ehdokkaat</button></td>
+      </tr>
+      </table>
+ 
+       
+
+   </body> 
+        
+   <script>
+   
+   function lueyksiriista() {
+		  var xhttp = new XMLHttpRequest();
+
+		  xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		     document.getElementById("uusin").innerHTML = this.responseText;
+		    }
+		  };
+           
+   function lueehdokkaat() {
+        	   
+        	   etunimi = document.getElementById("etunimi").value;
+        		
+        	   sukunimi = document.getElementById("sukunimi").value;
+        		
+        	   puolue = document.getElementById("puolue").value;
+        	   
+        	   kotipaikkakunta = document.getElementById("kotipaikkakunta").value;
+       		
+        	   ika = document.getElementById("ika").value;
+        		
+        	   miksiEduskuntaan = document.getElementById("miksiEduskuntaan").value;
+        	   
+        	   mitaEdistaa = document.getElementById("mitaEdistaa").value;
+       		
+        	   ammatti = document.getElementById("ammatti").value;
+        	   
+        	   
+        		var ehdokkaat=new Object();
+        		ehdokkaat.etunimi=etunimi; 
+        		ehdokkaat.sukunimi=sukunimi;
+        		ehdokkaat.puolue=puolue;
+        		
+        		ehdokkaat.kotipaikkakunta=kotipaikkakunta; 
+        		ehdokkaat.ika=ika;
+        		ehdokkaat.miksiEduskuntaan=miksiEduskuntaan;
+        		
+        		ehdokkaat.mitaEdistaa=mitaEdistaa; 
+        		ehdokkaat.ammatti=ammatti;
+        		
+        		
+        		var jsonEhdokkaat=JSON.stringify(ehdokkaat);
+        		
+        		  var xhttp = new XMLHttpRequest();
+        		  xhttp.onreadystatechange = function() {
+        			    if (this.readyState == 4 && this.status == 200) {
+        			     document.getElementById("ika").innerHTML = this.responseText;
+        		/* 	     var palautettu=JSON.parse(this.responseText);
+        			     document.getElementById("osina").innerHTML="Model="+palautettu.model+" Name="+palautettu.name+" Price="+palautettu.price; */
+        			    }
+        			    else{ 
+        				     document.getElementById("ika").setvalue = "Problems!";
+        			    }
+        			  };
+           }
+   
+   
+   
+        		  xhttp.open("POST","./rest/riistaservice/addehdokkaat",true);
+
+        		  xhttp.setRequestHeader("Content-type","application/json");
+
+        		  xhttp.send(jsonEhdokkaat); 
+   }
+        	   
+          
+ </script>
+           
+ 
+
+</html>
