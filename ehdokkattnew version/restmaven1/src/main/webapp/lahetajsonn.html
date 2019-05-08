@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Lisaa/ muuta/ poista ehdokkaita.</title>
+        <meta charset="UTF-8">
+          <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+      <!--   <link href="style.css" rel="stylesheet" type="text/css"> -->
+        
+    </head> 
+    <body>
+    
+
+	
+<!-- <button onclick="showdata()">lue Ehdokkaat</button> -->
+
+ 
+    <h2>Tasta paaset lisaamaan uuden ehdokkaan:</h2>
+       <table>
+		<tr>
+			
+       <td>Ehdokkaan etunimi:<br>  </td>
+       <td><input type="text" name="etunimi" id="etunimi"><br></td>
+       <tr>
+       	<tr>
+			
+       <td> Ehdokkaan sukunimi:<br></td>
+     <td>  <input type="text" name="sukunimi" id="sukunimi"><br></td>
+     </tr>
+      <tr>
+      <td> Ehdokkaan puolue:<br></td>
+       <td><input type="text" name="puolue" id="puolue"><br></td>
+       </tr>
+       <tr>
+       <td>Ehdokkaan kotipaikkakunta:<br></td>
+       <td><input type="text" name="kotipaikkakunta" id="kotipaikkakunta"><br></td>
+       </tr>
+       <tr>
+       <td>Ehdokkaan ika:<br> </td>
+       <td><input type="text" name="ika" id="ika"><br></td>
+       </tr>
+       <tr>
+       <td> Miksi eduskuntaan?:<br></td>
+       <td><input type="text" name="miksiEduskuntaan" id="miksiEduskuntaan"><br></td>
+       </tr>
+       <tr>
+      <td> Mita asioita haluaa edistaa?:<br></td>
+      <td> <input type="text" name="mitaEdistaa" id="mitaEdistaa"><br></td>
+      </tr>
+      <tr>
+       <td>Ehdokkaan ammatti:<br></td>
+       <td><input type="text" name="ammatti" id="ammatti"><br></td>
+       </tr>
+       
+          <tr>
+       <td>Koti paikka kunta:<br></td>
+       <td><input type="text" name="kotipaikkakunta" id="kotipaikkakunta"><br></td>
+       </tr>
+        <tr>
+    <td colspan="2"><button onclick="lueyksiriista()">Luo ehdokas</button></td>
+      </tr>
+      </table>
+ 
+       <div id='osina'>
+
+</div>
+ 
+ 
+ <div>
+<p> *** DATA SHOW HERE ***<p/>
+    <table id="gable" border ="5">
+
+        <tr>
+         <th onclick="sortTable(0)"><span class="glyphicon glyphicon-sort"></span>&nbsp&nbspID</th>
+            <th onclick="sortTable(0)"><span class="glyphicon glyphicon-sort"></span>&nbsp&nbspEtunimi</th>
+            <th onclick="sortTable(1)"><span class="glyphicon glyphicon-sort"></span>&nbsp&nbspSukunimi</th>
+            <th onclick="sortTable(2)"><span class="glyphicon glyphicon-sort"></span>&nbsp&nbspIka</th>
+            <th onclick="sortTable(3)"><span class="glyphicon glyphicon-sort"></span>&nbsp&nbspPuolue</th>
+            <th onclick="sortTable(4)"><span class="glyphicon glyphicon-sort"></span>&nbsp&nbspMiksiEduskuntaan</th>
+            <th onclick="sortTable(5)"><span class="glyphicon glyphicon-sort"></span>&nbsp&nbspKotipaikkakunta</th>
+            <th onclick="sortTable(6)"><span class="glyphicon glyphicon-sort"></span>&nbsp&nbspMitaAsioitaHaluatEdistaa</th>
+            <th onclick="sortTable(7)"><span class="glyphicon glyphicon-sort"></span>&nbsp&nbspEhdokkaan ammatti</th>
+            
+              <th onclick="sortTable(6)"><span class="glyphicon glyphicon-sort"></span>&nbsp&nbspDELETE</th>
+            <th onclick="sortTable(7)"><span class="glyphicon glyphicon-sort"></span>&nbsp&nbspEDIT </th>
+            
+        </tr>
+    </table>
+</div>
+   </body> 
+        
+   <script>
+   
+   function lueyksiriista() {
+	 
+	   etunimi = document.getElementById("etunimi").value;
+		
+	   sukunimi = document.getElementById("sukunimi").value;
+		
+	   puolue = document.getElementById("puolue").value;
+	   
+	   kotipaikkakunta = document.getElementById("kotipaikkakunta").value;
+		
+	   ika = document.getElementById("ika").value;
+		
+	   miksiEduskuntaan = document.getElementById("miksiEduskuntaan").value;
+	   
+	   mitaEdistaa = document.getElementById("mitaEdistaa").value;
+		
+	   ammatti = document.getElementById("ammatti").value;
+	   
+	   
+		var ehdokkaat=new Object();
+		ehdokkaat.etunimi=etunimi; 
+		ehdokkaat.sukunimi=sukunimi;
+		ehdokkaat.puolue=puolue;
+		
+		ehdokkaat.kotipaikkakunta=kotipaikkakunta; 
+		ehdokkaat.ika=ika;
+		ehdokkaat.miksiEduskuntaan=miksiEduskuntaan;
+		
+		ehdokkaat.mitaAsioitaHaluatEdistaa=mitaEdistaa; 
+		ehdokkaat.ammatti=ammatti;
+		
+		
+		var jsonEhdokkaat=JSON.stringify(ehdokkaat);
+	
+		  var xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+			    if (this.readyState == 4 && this.status == 200) {
+			     document.getElementById("osina").innerHTML = this.responseText;
+			     var palautettu=JSON.parse(this.responseText);
+			     document.getElementById("osina").innerHTML="Model="+palautettu.etunimi+" Name="+palautettu.kotipaikkakunta+" Price="+palautettu.ammatti; 
+			     get_json_data();
+			    }
+			    else{ 
+				     document.getElementById("osina").innerHTML = "Problems!";
+			    }
+			  };
+    
+ 
+
+		  xhttp.open("POST","./rest/riistaservice/addehdokkaat",true);
+		  
+		  
+
+		  xhttp.setRequestHeader("Content-type","application/json");
+
+		  xhttp.send(jsonEhdokkaat); 
+		  }
+
+   
+   
+   
+     	   ///////////////////////////////////////////////////////////
+     	              
+
+ 
+	
+ 
+   //first add an event listener for page load
+   document.addEventListener( "DOMContentLoaded", get_json_data, false ); // get_json_data is the function name that will fire on page load
+
+   //this function is in the event listener and will execute on page load
+   function get_json_data(){
+	   var xmlhttp = new XMLHttpRequest();
+       // Relative URL of external json file
+    
+
+       //Build the XMLHttpRequest (aka AJAX Request)
+       xmlhttp.onreadystatechange = function() { 
+    	
+           if (this.readyState == 4 &&  this.status == 200) {//when a good response is given do this
+
+               var data = JSON.parse(this.responseText); // convert the response to a json object
+               append_json(data);// pass the json object to the append_json function
+               
+           } else
+        	   {
+        	   
+        	   
+        	   }
+       }
+       //set the request destination and type
+
+       xmlhttp.open("GET","./rest/riistaservice/kaikki",true);
+       //set required headers for the request
+       xmlhttp.setRequestHeader("Content-type","application/json");
+       // send the request
+       xmlhttp.send(); // when the request completes it will execute the code in onreadystatechange section
+   }
+
+   //this function appends the json data to the table 'gable'
+   function append_json(data){
+       var table = document.getElementById('gable');
+       data.forEach(function(object) {
+           var tr = document.createElement('tr');
+           tr.innerHTML = '<td>' + object.ehdokasId + '</td>' +
+           '<td>' + object.etunimi + '</td>' +
+           '<td>' + object.sukunimi + '</td>' +
+           '<td>' + object.ika + '</td>'+
+           '<td>' + object.puolue + '</td>' +
+           '<td>' + object.miksiEduskuntaan + '</td>' +
+           '<td>' + object.kotipaikkakunta + '</td>' +
+           '<td>' + object.mitaAsioitaHaluatEdistaa + '</td>'+        
+           '<td>' + object.ammatti + '</td>' +
+           
+           
+/* 
+            '<td>' +	"<a href='Remove?poistettavaId="+object.ehdokasId+"'>Poista</a>" +	 '</td>'+ */
+            		
+             '<td>' +	"<a href='#' onclick='Deletedata("+object.ehdokasId+");'>Poista</a>" +	 '</td>'+ 
+		 '<td>'+	"<a href='GetEhdokkaat?poistettavaId="+object.ehdokasId+"'>Edit</a>" + '</td>' ;
+
+           table.appendChild(tr);
+       });
+   }
+
+   //////////////////////////////////////////////////////
+ 
+   
+   function Deletedata(id){
+	   var xmlhttp = new XMLHttpRequest();
+       // Relative URL of external json file
+    
+
+       //Build the XMLHttpRequest (aka AJAX Request)
+       xmlhttp.onreadystatechange = function() { 
+    	
+           if (this.readyState == 4 &&  this.status == 200) {//when a good response is given do this
+        	  
+
+      		
+             
+              // pass the json object to the append_json function
+               document.getElementById("osina").innerHTML = id;
+               
+           } else
+        	   {
+               document.getElementById("osina").innerHTML ="Problemmm";
+        	   
+        	   }
+       }
+	   
+ 	  xhttp.open("POST","./rest/riistaservice/delete",true);
+ 		  
+ 		  
+
+ 		  xhttp.setRequestHeader("Content-type","application/json");
+ 		  xhttp.send(id); 
+   }
+   
+   ////////////////////////////////////////////////////////////
+   
+ </script>
+           
+ 
+
+</html>
